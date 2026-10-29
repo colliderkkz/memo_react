@@ -1,0 +1,117 @@
+/* React 移植版的入场动画（对应 Svelte transition:fade/scale/slide/fly；出场动画省略） */
+
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ui-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ui-slide-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: auto;
+  }
+}
+
+@keyframes ui-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ui-fade-in-100 {
+  animation: ui-fade-in 100ms ease;
+}
+
+.ui-fade-in-150 {
+  animation: ui-fade-in 150ms ease;
+}
+
+/* dialog panel：与 transition:scale={start:0.96, duration:150} 对应；
+   注意面板本身带 -translate-x/y-1/2 定位，keyframes 里必须保留位移 */
+.ui-dialog-panel-in {
+  animation: ui-dialog-panel-in 150ms ease;
+}
+
+@keyframes ui-dialog-panel-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* popover：定位类里可能带 -translate-x-1/2（align=center），动画只加 opacity+轻微 scale 避免冲突 */
+.ui-popover-in {
+  animation: ui-fade-in 130ms ease;
+}
+
+/* CommandList 滚动条隐藏（原 Svelte scoped style） */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* hash 深链定位后的高亮闪烁（原 MemoCard :global(.memo-highlight)） */
+@keyframes memo-glow {
+  0% {
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
+  60% {
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.memo-highlight {
+  animation: memo-glow 2.5s ease-out forwards;
+}
+
+/* collapsible：height 0→auto 需要 interpolate-size（Chrome/Edge 129+；其他浏览器静默无动画） */
+.ui-slide-in {
+  animation: ui-slide-down 150ms ease;
+}
+
+.ui-toast-in {
+  animation: ui-toast-in 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-fade-in-100,
+  .ui-fade-in-150,
+  .ui-dialog-panel-in,
+  .ui-popover-in,
+  .ui-slide-in,
+  .ui-toast-in {
+    animation: none;
+  }
+}

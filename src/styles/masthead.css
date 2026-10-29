@@ -1,0 +1,37 @@
+/* Masthead 样式（从 Svelte scoped style 抽出） */
+  .masthead-wordmark {
+    font-size: 36px;
+    transition:
+      color 0.3s ease,
+      letter-spacing 0.3s ease;
+  }
+
+  .masthead-wordmark:hover {
+    color: var(--color-accent);
+    letter-spacing: 0.02em;
+  }
+
+  .wordmark-bar {
+    transform-origin: left center;
+    animation: memos-bar-grow 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    transition:
+      filter 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .masthead-wordmark:hover .wordmark-bar {
+    filter: brightness(1.2) saturate(1.25);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 55%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark-bar {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .masthead-wordmark {
+      font-size: 26px;
+    }
+  }

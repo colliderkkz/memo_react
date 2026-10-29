@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts
+
+# Runtime data (memos database, uploads, caches) — never commit
+data/
+
+# Legacy tool caches (old Cloudflare stack, kept until migration sign-off)
+.wrangler/
+.void/
+.svelte-kit/
+.svelte-check/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Local environment files
+.dev.vars*
+.env*
+
+# Editors and OS files
+.idea/
+.vscode/
+.DS_Store
+
+# Personal data backups (never commit)
+backups/

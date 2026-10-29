@@ -1,0 +1,22 @@
+@layer components {
+  .md-editor {
+    width: 100%;
+    min-height: 5rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    cursor: text;
+    resize: vertical;
+    border: none;
+    background: transparent;
+    color: var(--color-foreground);
+    font-size: 0.875rem;
+    line-height: 1.625;
+    font-family: inherit;
+    field-sizing: content;
+  }
+
+  .md-editor::placeholder {
+    color: var(--color-muted-foreground);
+    opacity: 0.85;
+  }
+}

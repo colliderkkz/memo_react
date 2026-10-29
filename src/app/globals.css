@@ -1,0 +1,185 @@
+@import "../styles/ui.css";
+@import "../styles/prose.css";
+@import "../styles/editor.css";
+@import "../styles/ui-animations.css";
+@import "../styles/timeline.css";
+@import "../styles/heating-rate.css";
+@import "../styles/intro.css";
+@import "../styles/masthead.css";
+
+html,
+body {
+  min-height: 100%;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* 允许 keyframes 动画到 height:auto（collapsible 滑入；Chrome/Edge 129+） */
+  interpolate-size: allow-keywords;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+}
+
+@media (max-width: 39.999rem) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not(
+      [type="submit"]
+    ):not([type="reset"]),
+  textarea:not([disabled]),
+  select:not([disabled]) {
+    font-size: 1rem;
+  }
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 40rem) {
+  .group .memo-hover-actions {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .group:hover .memo-hover-actions,
+  .group:focus-within .memo-hover-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 48rem) {
+  .group .memo-hover-actions-md {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .group:hover .memo-hover-actions-md,
+  .group:focus-within .memo-hover-actions-md {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ===== 动效：入场动画与全局微交互（尊重系统"减少动态效果"设置） ===== */
+@keyframes memos-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes memos-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes memos-bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    .anim-fade-up {
+      animation: memos-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .anim-fade-in {
+      animation: memos-fade-in 0.5s ease backwards;
+    }
+
+    .anim-delay-1 {
+      animation-delay: 0.06s;
+    }
+    .anim-delay-2 {
+      animation-delay: 0.12s;
+    }
+    .anim-delay-3 {
+      animation-delay: 0.18s;
+    }
+    .anim-delay-4 {
+      animation-delay: 0.24s;
+    }
+    .anim-delay-5 {
+      animation-delay: 0.3s;
+    }
+
+    /* 全局按键按压反馈 */
+    button:not(:disabled):active {
+      transform: scale(0.96);
+    }
+  }
+}
+
+/* 滚动进入视口的淡入上浮（配合 lib/utils/reveal hook） */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s ease var(--reveal-delay, 0ms),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* 下滑视差：标题区随滚动缓慢上移并淡出（原生滚动驱动动画，Chrome/Edge 支持；不支持则静默降级） */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .masthead-parallax {
+      animation: masthead-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 420px;
+    }
+
+    @keyframes masthead-drift {
+      to {
+        transform: translateY(-46px);
+        opacity: 0.15;
+      }
+    }
+  }
+}
